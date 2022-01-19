@@ -285,7 +285,7 @@ void Application::openMindMap()
 {
     L().debug() << "Open file";
 
-    const auto path = Settings::loadRecentPath();
+    const auto path = Settings::V1::loadRecentPath();
     if (const auto fileName = QFileDialog::getOpenFileName(m_mainWindow.get(), tr("Open File"), path, getFileDialogFileText()); !fileName.isEmpty()) {
         doOpenMindMap(fileName);
     } else {
@@ -300,7 +300,7 @@ void Application::doOpenMindMap(QString fileName)
     if (m_mediator->openMindMap(fileName)) {
         m_mainWindow->disableUndoAndRedo();
         m_mainWindow->setSaveActionStatesOnOpenedMindMap();
-        Settings::saveRecentPath(fileName);
+        Settings::V1::saveRecentPath(fileName);
         emit actionTriggered(StateMachine::Action::MindMapOpened);
     } else {
         emit actionTriggered(StateMachine::Action::OpeningMindMapFailed);
@@ -330,7 +330,7 @@ void Application::saveMindMapAs()
     QString fileName = QFileDialog::getSaveFileName(
       m_mainWindow.get(),
       tr("Save File As"),
-      Settings::loadRecentPath(),
+      Settings::V1::loadRecentPath(),
       getFileDialogFileText());
 
     if (fileName.isEmpty()) {
@@ -346,7 +346,7 @@ void Application::saveMindMapAs()
         const auto msg = QString(tr("File '")) + fileName + tr("' saved.");
         L().debug() << msg.toStdString();
         m_mainWindow->enableSave(false);
-        Settings::saveRecentPath(fileName);
+        Settings::V1::saveRecentPath(fileName);
         emit actionTriggered(StateMachine::Action::MindMapSavedAs);
     } else {
         const auto msg = QString(tr("Failed to save file as '") + fileName + "'.");
@@ -388,14 +388,14 @@ void Application::showTextColorDialog()
 
 void Application::showImageFileDialog()
 {
-    const auto path = Settings::loadRecentImagePath();
+    const auto path = Settings::V1::loadRecentImagePath();
     const auto extensions = "(*.jpg *.jpeg *.JPG *.JPEG *.png *.PNG)";
     const auto fileName = QFileDialog::getOpenFileName(
       m_mainWindow.get(), tr("Open an image"), path, tr("Image Files") + " " + extensions);
 
     if (QImage image; image.load(fileName)) {
         m_mediator->performNodeAction({ NodeAction::Type::AttachImage, image, fileName });
-        Settings::saveRecentImagePath(fileName);
+        Settings::V1::saveRecentImagePath(fileName);
     } else if (fileName != "") {
         QMessageBox::critical(m_mainWindow.get(), tr("Load image"), tr("Failed to load image '") + fileName + "'");
     }

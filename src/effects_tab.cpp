@@ -1,5 +1,5 @@
 // This file is part of Heimer.
-// Copyright (C) 2021 Jussi Lind <jussi.lind@iki.fi>
+// Copyright (C) 2022 Jussi Lind <jussi.lind@iki.fi>
 //
 // Heimer is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,32 +13,33 @@
 // You should have received a copy of the GNU General Public License
 // along with Heimer. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SETTINGS_DIALOG_HPP
-#define SETTINGS_DIALOG_HPP
+#include "effects_tab.hpp"
+#include "settings_proxy.hpp"
+#include "widget_factory.hpp"
 
-#include <QDialog>
+#include <QGroupBox>
+#include <QVBoxLayout>
 
-class DefaultsTab;
-class EditingTab;
-class EffectsTab;
-
-class SettingsDialog : public QDialog
+EffectsTab::EffectsTab(QWidget * parent)
+  : QWidget(parent)
 {
-    Q_OBJECT
+    initWidgets();
+}
 
-public:
-    explicit SettingsDialog(QWidget * parent = nullptr);
+void EffectsTab::apply()
+{
+}
 
-private:
-    void accept() override;
+void EffectsTab::initWidgets()
+{
+    const auto mainLayout = new QVBoxLayout;
+    const auto shadowsGroup = WidgetFactory::buildGroupBoxWithVLayout(tr("Shadows"), *mainLayout);
 
-    void initWidgets();
+    setLayout(mainLayout);
 
-    DefaultsTab * m_defaultsTab;
+    setActiveSettings();
+}
 
-    EditingTab * m_editingTab;
-
-    EffectsTab * m_effectsTab;
-};
-
-#endif // SETTINGS_DIALOG_HPP
+void EffectsTab::setActiveSettings()
+{
+}

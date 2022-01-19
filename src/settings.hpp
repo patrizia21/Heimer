@@ -22,6 +22,8 @@
 
 namespace Settings {
 
+namespace V1 {
+
 bool loadAutosave();
 
 void saveAutosave(bool autosave);
@@ -65,6 +67,16 @@ void saveWindowSize(QSize size);
 bool loadFullScreen();
 
 void saveFullScreen(bool fullScreen);
+
+} // namespace V1
+
+namespace V2 {
+
+bool getGenericBoolean(QString group, QString key, bool defaultValue);
+
+void setGenericBoolean(QString group, QString key, bool value);
+
+} // namespace V2
 
 } // namespace Settings
 

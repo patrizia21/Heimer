@@ -19,10 +19,10 @@
 std::unique_ptr<SettingsProxy> SettingsProxy::m_instance;
 
 SettingsProxy::SettingsProxy()
-  : m_autosave(Settings::loadAutosave())
-  , m_edgeArrowMode(Settings::loadEdgeArrowMode(Edge::ArrowMode::Single))
-  , m_reversedEdgeDirection(Settings::loadReversedEdgeDirection(false))
-  , m_selectNodeGroupByIntersection(Settings::loadSelectNodeGroupByIntersection())
+  : m_autosave(Settings::V1::loadAutosave())
+  , m_edgeArrowMode(Settings::V1::loadEdgeArrowMode(Edge::ArrowMode::Single))
+  , m_reversedEdgeDirection(Settings::V1::loadReversedEdgeDirection(false))
+  , m_selectNodeGroupByIntersection(Settings::V1::loadSelectNodeGroupByIntersection())
 {
 }
 
@@ -43,7 +43,7 @@ void SettingsProxy::setAutosave(bool autosave)
 {
     if (m_autosave != autosave) {
         m_autosave = autosave;
-        Settings::saveAutosave(autosave);
+        Settings::V1::saveAutosave(autosave);
     }
 }
 
@@ -56,7 +56,7 @@ void SettingsProxy::setEdgeArrowMode(Edge::ArrowMode mode)
 {
     if (m_edgeArrowMode != mode) {
         m_edgeArrowMode = mode;
-        Settings::saveEdgeArrowMode(mode);
+        Settings::V1::saveEdgeArrowMode(mode);
     }
 }
 
@@ -69,7 +69,7 @@ void SettingsProxy::setReversedEdgeDirection(bool reversedEdgeDirection)
 {
     if (m_reversedEdgeDirection != reversedEdgeDirection) {
         m_reversedEdgeDirection = reversedEdgeDirection;
-        Settings::saveReversedEdgeDirection(reversedEdgeDirection);
+        Settings::V1::saveReversedEdgeDirection(reversedEdgeDirection);
     }
 }
 
@@ -82,6 +82,16 @@ void SettingsProxy::setSelectNodeGroupByIntersection(bool selectNodeGroupByInter
 {
     if (m_selectNodeGroupByIntersection != selectNodeGroupByIntersection) {
         m_selectNodeGroupByIntersection = selectNodeGroupByIntersection;
-        Settings::saveSelectNodeGroupByIntersection(selectNodeGroupByIntersection);
+        Settings::V1::saveSelectNodeGroupByIntersection(selectNodeGroupByIntersection);
     }
+}
+
+bool SettingsProxy::shadowsEnabled() const
+{
+    return m_shadowsEnabled;
+}
+
+void SettingsProxy::setShadowsEnabled(bool enabled)
+{
+    m_shadowsEnabled = enabled;
 }

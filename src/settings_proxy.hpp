@@ -43,10 +43,16 @@ public:
 
     void setSelectNodeGroupByIntersection(bool selectNodeGroupByIntersection);
 
+    bool shadowsEnabled() const;
+
+    void setShadowsEnabled(bool enabled);
+
 private:
     bool m_autosave = false;
 
     Edge::ArrowMode m_edgeArrowMode;
+
+    bool m_shadowsEnabled = true;
 
     bool m_reversedEdgeDirection = false;
 
